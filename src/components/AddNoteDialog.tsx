@@ -20,8 +20,10 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { AddNoteDialogProps } from "../../types";
+import { useRouter } from "next/navigation";
 
 function AddNoteDialog({ open, setOpen }: AddNoteDialogProps) {
+  const router=useRouter()
   const form = useForm<NoteSchemaType>({
     resolver: zodResolver(noteSchema),
     defaultValues: {
@@ -39,6 +41,7 @@ function AddNoteDialog({ open, setOpen }: AddNoteDialogProps) {
         throw new Error(resp.status + "error");
       }
       form.reset();
+      router.refresh()
       setOpen(false)
     } catch (error) {
       console.log(error);

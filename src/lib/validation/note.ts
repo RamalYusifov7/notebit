@@ -6,3 +6,11 @@ export const noteSchema = z.object({
 });
 
 export type NoteSchemaType = z.infer<typeof noteSchema>;
+
+export const noteUpdateSchema = noteSchema.extend({
+  id: z.string().min(1),
+});
+export const noteDeleteSchema = z.object({
+  id: z.string().min(1),
+});
+
