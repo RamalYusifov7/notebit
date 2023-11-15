@@ -17,8 +17,7 @@ function Navbar() {
       <div className="p-4 shadow">
         <div className="flex flex-wrap items-center justify-between gap-1">
           <Link href="/notes" className="flex items-center">
-            <Image src={logo} alt="FlowBrain logo" width={60} height={60} />
-            <span className="font-bold">GPT</span>
+            <span className="font-bold">NOTEBIT</span>
           </Link>
           <div className="flex items-center gap-2">
             <Button size="sm" onClick={() => setshowNoteDialog(true)}>
