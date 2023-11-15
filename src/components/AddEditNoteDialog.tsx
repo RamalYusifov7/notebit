@@ -1,4 +1,3 @@
-import { useForm } from "react-hook-form";
 import {
   Dialog,
   DialogContent,
@@ -14,49 +13,30 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { NoteSchemaType, noteSchema } from "@/lib/validation/note";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
-import { AddNoteDialogProps } from "../../types";
-import { useRouter } from "next/navigation";
-
-function AddNoteDialog({ open, setOpen }: AddNoteDialogProps) {
-  const router=useRouter()
-  const form = useForm<NoteSchemaType>({
-    resolver: zodResolver(noteSchema),
-    defaultValues: {
-      title: "",
-      content: "",
-    },
+import { AddEditNoteDialogProps } from "../../types";
+import { useAddEditDialog } from "@/hooks/useAddEditDialog";
+function AddEditNoteDialog({
+  open,
+  setOpen,
+  editNote,
+}: AddEditNoteDialogProps) {
+  const { form, onSubmit, deleteNote } = useAddEditDialog({
+    open,
+    setOpen,
+    editNote,
   });
-  const onSubmit = async (input: NoteSchemaType) => {
-    try {
-      const resp = await fetch("api/notes", {
-        method: "POST",
-        body: JSON.stringify(input),
-      });
-      if (!resp.ok) {
-        throw new Error(resp.status + "error");
-      }
-      form.reset();
-      router.refresh()
-      setOpen(false)
-    } catch (error) {
-      console.log(error);
-      alert("smt went wrong");
-    }
-  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add Note</DialogTitle>
+          <DialogTitle>{editNote ? "Edit Note" : "Add Note"}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form className="space-y-8">
             <FormField
               control={form.control}
               name="title"
@@ -84,10 +64,25 @@ function AddNoteDialog({ open, setOpen }: AddNoteDialogProps) {
                 </FormItem>
               )}
             />
-            <DialogFooter>
-              <Button className="w-full" type="submit" disabled={form.formState.isSubmitting}>
+            <DialogFooter className="gap-3">
+              <Button
+                className="w-full"
+                type="submit"
+                disabled={form.formState.isSubmitting}
+                onClick={form.handleSubmit(onSubmit)}
+              >
                 {form.formState.isSubmitting ? "Loading" : "Submit"}
               </Button>
+              {editNote && (
+                <Button
+                  className="w-full"
+                  type="submit"
+                  variant="destructive"
+                  onClick={form.handleSubmit(deleteNote)}
+                >
+                  {form.formState.isSubmitting ? "Loading" : "Submit"}
+                </Button>
+              )}
             </DialogFooter>
           </form>
         </Form>
@@ -96,4 +91,4 @@ function AddNoteDialog({ open, setOpen }: AddNoteDialogProps) {
   );
 }
 
-export default AddNoteDialog;
+export default AddEditNoteDialog;

@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
-import AddNoteDialog from "@/components/AddNoteDialog";
+import AddNoteDialog from "@/components/AddEditNoteDialog";
+import { DarkMode } from "@/components/DarkMode";
 function Navbar() {
   const { isLoaded } = useUser();
   const [showNoteDialog, setshowNoteDialog] = useState(false);
@@ -24,10 +25,16 @@ function Navbar() {
               <Plus size={20} className="mr-2" />
               Add Note
             </Button>
+            <DarkMode/>
             {isLoaded ? (
-              <UserButton afterSignOutUrl="/" />
+              <div className="h-[36px] min-w-[36px]">
+            <UserButton  afterSignOutUrl="/" />
+            </div>
+              
             ) : (
-              <Skeleton className="h-[36px] w-[36px] rounded-full bg-slate-300" />
+              <div className="h-[36px] min-w-[36px]">
+                <Skeleton className="w-full h-full rounded-full bg-slate-300" />
+              </div>
             )}
           </div>
         </div>

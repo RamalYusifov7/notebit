@@ -7,8 +7,7 @@ async function page() {
   const { userId } = auth();
   if (!userId) throw new Error("unauthanticated");
   const allNotes = await prisma.note.findMany({ where: { userId } });
-  console.log(allNotes);
-
+  
   return (
     <>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-2">
