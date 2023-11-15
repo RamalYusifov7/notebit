@@ -52,7 +52,7 @@ export async function PUT(req: Request) {
     const note = await prisma.note.findUnique({ where: { id } });
     if (!note) throw new Error("note is undefined");
     const { userId } = auth();
-    if (!userId || !note.userId) {
+    if (!userId || userId !== note.userId) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -66,7 +66,7 @@ export async function PUT(req: Request) {
       },
     });
 
-    return Response.json({ note }, { status: 201 });
+    return Response.json({ updateUser }, { status: 201 });
   } catch (error) {
     console.error(error);
     return Response.json({ error: "Internal server error" }, { status: 500 });
@@ -87,7 +87,7 @@ export async function DELETE(req: Request) {
     const note = await prisma.note.findUnique({ where: { id } });
     if (!note) throw new Error("note is undefined");
     const { userId } = auth();
-    if (!userId || !note.userId) {
+    if (!userId || userId !== note.userId) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 

@@ -71,7 +71,7 @@ function AddEditNoteDialog({
                 disabled={form.formState.isSubmitting}
                 onClick={form.handleSubmit(onSubmit)}
               >
-                {form.formState.isSubmitting ? "Loading" : "Submit"}
+                Submit
               </Button>
               {editNote && (
                 <Button
@@ -79,8 +79,9 @@ function AddEditNoteDialog({
                   type="submit"
                   variant="destructive"
                   onClick={form.handleSubmit(deleteNote)}
+                  disabled={form.formState.isSubmitting}
                 >
-                  {form.formState.isSubmitting ? "Loading" : "Submit"}
+                  Delete
                 </Button>
               )}
             </DialogFooter>

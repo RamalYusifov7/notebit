@@ -1,7 +1,5 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
-import logo from "@/assets/images.png";
 import { UserButton, useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";

@@ -29,7 +29,7 @@ function Note({ note }: NoteProps) {
           <CardTitle>{note.title}</CardTitle>
           <CardDescription>
             {createUpdatedatTimestamp}
-            {wasUpdated && "updated"}
+            <span className="ml-1">{wasUpdated && "(updated)"}</span>
           </CardDescription>
         </CardHeader>
         <CardContent>
